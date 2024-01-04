@@ -19,4 +19,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     cy.get('.button').click()
     cy.get('.success').should('be.visible')
   })
+
+  it('Verifica mensagem de erro ao submeter respostas com e-mail em formatação errada', () => {
+    cy.get('#firstName').type('Augusto')
+    cy.get('#lastName').type('dos Anjos')
+    cy.get('#email').type('augusto@aug')
+    cy.get('#open-text-area').type('LongText delay: 0')
+
+    cy.get('.button').click()
+    cy.get('.error').should('be.visible')
+  })
 })
