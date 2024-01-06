@@ -29,4 +29,37 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     cy.get('.button').click()
     cy.get('.error').should('be.visible')
   })
+
+  it('Verificar se o campo telefone continua vazio após o usuário digitar letras', () => {
+    cy.get('#phone').type('abcdefghij').should('have.value', '')
+  })
+
+  it('verificar se mensagem de erro é exibida quando o campo de telefone é obrigatório, mas não é preenchido', () => {
+    cy.get('#firstName').type('Augusto')
+    cy.get('#lastName').type('dos Anjos')
+    cy.get('#email').type('augusto@aug')
+    cy.get('#open-text-area').type('LongText delay: 0')
+    cy.get('#phone-checkbox').click()
+
+    cy.get('.button').click()
+    cy.get('.error').should('be.visible')
+  })
+
+  it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
+    cy.get('#firstName').type('Augusto').should('have.value', 'Augusto').clear().should('have.value', '')
+    cy.get('#lastName').type('dos Anjos').should('have.value', 'dos Anjos').clear().should('have.value', '')
+    cy.get('#email').type('augusto@aug.au').should('have.value', 'augusto@aug.au').clear().should('have.value', '')
+    cy.get('#phone').type('40028922').should('have.value', '40028922').clear().should('have.value', '')
+    cy.get('#open-text-area').type('LongText delay: 0').should('have.value', 'LongText delay: 0').clear().should('have.value', '')
+  })
+
+  it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
+    cy.get('.button').click()
+    cy.get('.error').should('be.visible')
+  })
+
+  it.only('envia o formuário com sucesso usando um comando customizado', () => {
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.get('.success').should('be.visible')
+  })
 })
