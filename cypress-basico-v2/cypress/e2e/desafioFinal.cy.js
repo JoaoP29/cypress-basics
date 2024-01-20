@@ -1,4 +1,5 @@
 it('encontra o gatinho escondido', () => {
+    cy.visit('./src/index.html')
     cy.get('#cat')
     .invoke('show')
     .should('be.visible')
